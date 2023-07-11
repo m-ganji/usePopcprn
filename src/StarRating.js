@@ -21,6 +21,7 @@ const starStyle = {
 
 export default function StarRating({ maxRating }) {
   const [numStarFilled, setNumStarFilled] = useState(null);
+  const [tempRating, setTempRating] = useState(0);
 
   return (
     <div style={containerStyle}>
@@ -29,31 +30,28 @@ export default function StarRating({ maxRating }) {
           <Star
             key={i}
             onClick={() => setNumStarFilled(i + 1)}
-            full={numStarFilled >= i + 1}
+            full={tempRating ? tempRating >= i + 1 : numStarFilled >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            tempRating={tempRating}
           />
         ))}
       </div>
-      <p style={textStyle}>{numStarFilled}</p>
+      <p style={textStyle}>{tempRating}</p>
     </div>
   );
 }
 
-function Star({ full, onClick }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleHover = () => {
-    setIsHovered(!isHovered);
-  };
-
+function Star({ full, onClick, onHoverIn, onHoverOut, tempRating }) {
   return (
     <span
       role="button"
       style={starStyle}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleHover}
+      onMouseEnter={onHoverIn}
+      onMouseLeave={onHoverOut}
       onClick={onClick}
     >
-      {full ? (
+      {full && tempRating ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
