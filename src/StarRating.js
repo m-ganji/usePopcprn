@@ -29,7 +29,7 @@ export default function StarRating({ maxRating }) {
           <Star
             key={i}
             onClick={() => setNumStarFilled(i + 1)}
-            index={numStarFilled}
+            full={numStarFilled >= i + 1}
           />
         ))}
       </div>
@@ -38,15 +38,12 @@ export default function StarRating({ maxRating }) {
   );
 }
 
-function Star({ index, onClick }) {
+function Star({ full, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleHover = () => {
     setIsHovered(!isHovered);
   };
-
-  console.log(isHovered);
-  console.log(index);
 
   return (
     <span
@@ -56,7 +53,7 @@ function Star({ index, onClick }) {
       onMouseLeave={handleHover}
       onClick={onClick}
     >
-      {isHovered ? (
+      {full ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
